@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 
 from models.hplc_data import ExperimentalData
 from models.excel import ExcelModel
+from views.popup import NamePeakPopup
 
 
 class Presenter:
@@ -77,7 +78,7 @@ class Presenter:
     #  ------------------event check--------------------
     def check_event(self, event, value):
         """TODO MUST
-        peakname function & exclude function"""
+        exclude function"""
         if event == '-InputData-':
             file_path = value['-SourceFile-']
             self.input_data_event(file_path)
@@ -90,7 +91,13 @@ class Presenter:
             self.calc_rrt_event(base_rt)
 
         elif event == '-PeakName-':
-            pass
+            rrt_list = sorted(list(self.exp.rrt_set))
+            popup = NamePeakPopup(rrt_list)
+            rrt_to_name = popup.get_rrt_to_name()
+            print(rrt_to_name)
+            if rrt_to_name:
+                self.set_peak_name(rrt_to_name)
+            del popup
 
         elif event == '-Exclude-':
             pass

@@ -20,7 +20,7 @@ class ImpurityData:
         self.rrt = Decimal(str(self.rt/std_rt)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
     def set_imp_name(self, rrt_to_name: dict):
-        if self.name not in rrt_to_name:
+        if self.rrt not in rrt_to_name:
             return
         name = rrt_to_name[self.rrt]
         self.name = name
@@ -85,7 +85,7 @@ class DataTable:
 
 
 class ExperimentalData:
-    """実験で得られた全てのHPLC分析データ(DataTableのリスト)"""
+    """実験で得られた全てのHPLC分析データ(DataTableのdict)"""
     tables: Dict[str, DataTable]
 
     def __init__(self):
