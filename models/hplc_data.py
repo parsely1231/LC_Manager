@@ -75,9 +75,12 @@ class DataTable:
         edited_total_area = sum([data.area for data in self.data_list if data.name not in excluded])
         self.edited_total_area = edited_total_area
 
-    def calc_edited_area_ratio_in_table(self):
+    def calc_edited_area_ratio_in_table(self, excluded):
         for imp in self.data_list:
-            imp.set_edited_area_ratio(self.edited_total_area)
+            if imp.name in excluded:
+                imp.edited_area_ratio = None
+            else:
+                imp.set_edited_area_ratio(self.edited_total_area)
 
     def set_imp_name_in_table(self, rrt_to_name: dict):
         for imp in self.data_list:
@@ -94,6 +97,7 @@ class ExperimentalData:
         self.rrt_set = set()
         self.imp_excluded = set()
         self.base_rt = 1
+        self.imp_name_list = []
 
     # ---------テキストの読み込み-----------
     def install_text(self, text_file_path):
@@ -160,10 +164,11 @@ class ExperimentalData:
     def calc_edited_area_ratio_in_exp(self):
         for _, table in self.tables.items():
             table.set_edited_total_area(self.imp_excluded)
-            table.calc_edited_area_ratio_in_table()
+            table.calc_edited_area_ratio_in_table(self.imp_excluded)
 
     # ----------ピーク名付与処理--------------
     def set_imp_name_in_exp(self, rrt_to_name: dict):
         """exp内の全てのimp_dataについて、rrtに対応するnameを設定する"""
+        self.imp_name_list = list(rrt_to_name.values())
         for _, table in self.tables.items():
             table.set_imp_name_in_table(rrt_to_name)

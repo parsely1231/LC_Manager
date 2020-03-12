@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 
 from models.hplc_data import ExperimentalData
 from models.excel import ExcelModel
-from views.popup import NamePeakPopup
+from views.popup import NamePeakPopup, ExcludePopup
 
 
 class Presenter:
@@ -33,14 +33,16 @@ class Presenter:
         excel.to_xlsx(self.exp, file_path)
 
     # ------------------for View-------------------
+    def update_table(self):
+        if self.exp.tables:
+            self.window['-TABLE-'].update(values=self.exp.tables[self.exp.sample_name_list[0]].detail())
+
     def input_data_event(self, file_path):
         if file_path[-4:] == '.txt':
             self.install_text(file_path)
             self.window['-SampleList-'].update(values=self.exp.sample_name_list)
-            sample = self.exp.sample_name_list[0]
-            table = self.exp.tables[sample]
-            self.window['-TABLE-'].update(values=table.detail())
             sg.popup('Input has completed')
+            self.update_table()
         else:
             sg.popup('#### Error ####\nSelect **TEXT** file')
 
@@ -62,14 +64,18 @@ class Presenter:
 
         base_rt = float(base_rt)
         self.calc_rrt(base_rt)
-        self.window['-TABLE-'].update(values=self.exp.tables[self.exp.sample_name_list[0]].detail())
         sg.popup('Calculation has completed')
+        self.update_table()
 
     def excluded_event(self, excluded):
         self.set_excluded(excluded)
+        sg.popup('Excluding has completed')
+        self.update_table()
 
     def peak_name_event(self, rrt_to_name):
         self.set_peak_name(rrt_to_name)
+        sg.popup('Name Peaks has completed')
+        self.update_table()
 
     def save_event(self, file_path):
         self.create_excel(file_path)
@@ -77,8 +83,6 @@ class Presenter:
 
     #  ------------------event check--------------------
     def check_event(self, event, value):
-        """TODO MUST
-        exclude function"""
         if event == '-InputData-':
             file_path = value['-SourceFile-']
             self.input_data_event(file_path)
@@ -96,11 +100,16 @@ class Presenter:
             rrt_to_name = popup.get_rrt_to_name()
             print(rrt_to_name)
             if rrt_to_name:
-                self.set_peak_name(rrt_to_name)
+                self.peak_name_event(rrt_to_name)
             del popup
 
         elif event == '-Exclude-':
-            pass
+            name_list = self.exp.imp_name_list
+            popup = ExcludePopup(name_list)
+            excluded = popup.get_excluded()
+            if excluded:
+                self.excluded_event(excluded)
+            del popup
 
         elif event == '-Output-':
             file_path = sg.popup_get_file('Create Excel', file_types=(("Excel File", "*.xlsx"),),
