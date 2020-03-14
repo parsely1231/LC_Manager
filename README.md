@@ -94,20 +94,20 @@ Note: サンプル内にBase RTの±0.2いないのRTがある場合、そのRT�
 <img width="611" alt="スクリーンショット 2020-03-14 12 58 10" src="https://user-images.githubusercontent.com/52167040/76676416-9262b200-6606-11ea-9fde-d0e55febb1c1.png">
 
 
-### name peaks
+### ピークに名前をつける
 特定のRRTに名前をつける場合、"Set Peak Names" ボタンを押してください.  
 表示されたポップアップにRRT毎に設定した名前を入力してください (全てを埋める必要はありません。名前がない場合は空白で大丈夫です).  
 <img width="611" alt="スクリーンショット 2020-03-14 12 58 28" src="https://user-images.githubusercontent.com/52167040/76676583-6811f400-6608-11ea-92f6-b69ceb293579.png">
 
 
-### exclude unnecessary peaks
+### 計算から除外するピークを設定する
 面積比を計算する際に、特定のピークを除去する場合(s.g. ブランクピーク, 溶媒ピーク)、"Set Exclude"ボタンを押してください。  
 表示されたポップアップの中で計算から除外したいピーク名にチェックを入れてOKを押してください。
 Note: この機能をしようする場合、先にピークに名前を設定する必要があります。  
 <img width="612" alt="スクリーンショット 2020-03-14 12 58 53" src="https://user-images.githubusercontent.com/52167040/76676436-e077b580-6606-11ea-8eb0-4f3612d2fd2a.png">
 
 
-### export xlsx
+### エクセルファイルを出力
 データの編集が終わったら、"Export Excel File"ボタンをおせば、xlsxファイルとして保存できます。
 
 
