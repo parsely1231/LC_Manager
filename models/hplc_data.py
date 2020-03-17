@@ -137,6 +137,42 @@ class ExperimentalData:
         self.calc_rrt_in_exp()
         self.calc_edited_area_ratio_in_exp()
 
+    def install_ascii(self, ascii_files):
+        for asc_file in ascii_files:
+            self.ascii_to_table(asc_file)
+
+    def ascii_to_table(self, ascii_file):
+        def is_sample_name_line(text_line):
+            """ASCIIファイルの様式として、サンプル名の行はSampleNameで始まる"""
+            if not text_line:
+                return False
+            return text_line.split()[0] == 'SampleName'
+
+        def is_imp_data_line(text_line):
+            """ASCIIファイルの様式として、先頭に数字がくる行は不純物データである"""
+            return text_line[0].isdecimal()
+
+        table: Optional[DataTable] = None
+
+        with open(ascii_file, 'r') as file_open:
+            for line in file_open:
+
+                if is_sample_name_line(line):
+                    sample_name = line.split()[1]
+                    table = DataTable(sample_name)
+
+                elif is_imp_data_line(line):
+                    data = line.split()
+                    rt, area = data[1], data[4]
+                    imp_data = ImpurityData(float(rt), int(area), None)
+                    table.add_imp_data(imp_data)
+
+        table.set_total_area()
+        for imp_data in table.data_list:
+            imp_data.area_ratio = imp_data.area / table.total_area
+
+        self.add_table(table)
+
     def add_table(self, table: DataTable):
         """expにtableを追加する"""
         while table.name in self.tables:

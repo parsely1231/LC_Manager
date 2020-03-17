@@ -28,6 +28,12 @@ input_button_style = {
     'key': '-InputData-',
 }
 
+input_ascii_button_style = {
+    'size': (15, 1),
+    'key': '-InputASCII-',
+}
+
+
 # -----------Preview Frame-----------
 list_box_style = {
     'values': [],
