@@ -14,7 +14,8 @@ class InterFace:
 
                     [sg.Text('Source Text File', **input_text_style)],
                     [sg.Input(**file_path_entry_style), sg.FileBrowse('Select File', **file_browse_style)],
-                    [sg.Button('Input Data', **input_button_style)]
+                    [sg.Button('Input Text', **input_button_style)],
+                    [sg.Button('Input ASCII', **input_ascii_button_style)]
 
                     ])]
 

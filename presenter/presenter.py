@@ -14,6 +14,9 @@ class Presenter:
     def install_text(self, file_path):
         self.exp.install_text(file_path)
 
+    def install_ascii(self, ascii_files):
+        self.exp.install_ascii(ascii_files)
+
     def get_new_table(self, sample_name):
         return self.exp.tables[sample_name]
 
@@ -46,10 +49,20 @@ class Presenter:
         else:
             sg.popup('#### Error ####\nSelect **TEXT** file')
 
-    def sample_name_check_event(self):
-        if not self.window['-SampleList-'].get():
+    def input_ascii_event(self, ascii_files):
+        if not ascii_files:
             return
-        sample_name = self.window['-SampleList-'].get()[0]
+        ascii_files = ascii_files.split(';')
+        for file_path in ascii_files:
+            if file_path[-4:] != '.txt':
+                sg.popup('#### Error ####\nSelect **TEXT** files')
+                return
+        self.install_ascii(ascii_files)
+
+    def sample_name_check_event(self, sample_names):
+        if not sample_names:
+            return
+        sample_name = sample_names[0]
         new_table = self.get_new_table(sample_name)
         self.window['-TABLE-'].update(values=new_table.detail())
 
@@ -87,8 +100,14 @@ class Presenter:
             file_path = value['-SourceFile-']
             self.input_data_event(file_path)
 
+        elif event == '-InputASCII-':
+            ascii_files = sg.popup_get_file('Select ASCII files',
+                                            file_types=(("Text File", "*.txt"),), multiple_files=True)
+            self.input_ascii_event(ascii_files)
+
         elif event == '-SampleList-':
-            self.sample_name_check_event()
+            sample_names = self.window['-SampleList-'].get()
+            self.sample_name_check_event(sample_names)
 
         elif event == '-CalcRRT-':
             base_rt = sg.popup_get_text('Input Base RT')
