@@ -6,7 +6,7 @@ class NamePeakPopup:
         cols = [[sg.Text('RRT', size=(5, 1)), sg.Text('Name', size=(15, 1))]] + \
                [[sg.Text(str(rrt), size=(5, 1)), sg.Input(size=(15, 1))] for rrt in rrt_list]
 
-        self.layout = [[sg.Column(cols,scrollable=True , vertical_scroll_only=True, size=(200, 400))],
+        self.layout = [[sg.Column(cols, scrollable=True, vertical_scroll_only=True, size=(200, 400))],
                        [sg.OK(), sg.Cancel()]]
         self.window = sg.Window(title='Name Peaks', layout=self.layout)
         self.rrt_list = rrt_list
@@ -33,8 +33,8 @@ class NamePeakPopup:
 class ExcludePopup:
     def __init__(self, imp_name_list):
         self.layout = [[sg.Text('Check Exclude Peak', size=(20, 1))]] + \
-                 [[sg.Checkbox(name)] for name in imp_name_list if name is not None] + \
-                 [[sg.OK(), sg.Cancel()]]
+                      [[sg.Checkbox(name)] for name in imp_name_list if name is not None] + \
+                      [[sg.OK(), sg.Cancel()]]
 
         self.window = sg.Window(title='Set Exclude', layout=self.layout)
         self.excluded = set()
@@ -55,4 +55,3 @@ class ExcludePopup:
 
         self.window.close()
         return self.excluded
-

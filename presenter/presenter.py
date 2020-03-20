@@ -40,7 +40,9 @@ class Presenter:
         if self.exp.tables:
             self.window['-TABLE-'].update(values=self.exp.tables[self.exp.sample_name_list[0]].detail())
 
-    def input_data_event(self, file_path):
+    def input_text_event(self, file_path):
+        if not file_path:
+            return
         if file_path[-4:] == '.txt':
             self.install_text(file_path)
             self.window['-SampleList-'].update(values=self.exp.sample_name_list)
@@ -58,6 +60,9 @@ class Presenter:
                 sg.popup('#### Error ####\nSelect **TEXT** files')
                 return
         self.install_ascii(ascii_files)
+        self.window['-SampleList-'].update(values=self.exp.sample_name_list)
+        sg.popup('Input has completed')
+        self.update_table()
 
     def sample_name_check_event(self, sample_names):
         if not sample_names:
@@ -96,9 +101,9 @@ class Presenter:
 
     #  ------------------event check--------------------
     def check_event(self, event, value):
-        if event == '-InputData-':
-            file_path = value['-SourceFile-']
-            self.input_data_event(file_path)
+        if event == '-InputText-':
+            file_path = sg.popup_get_file('Select "Original Format" Text file', file_types=(("Text File", "*.txt"),))
+            self.input_text_event(file_path)
 
         elif event == '-InputASCII-':
             ascii_files = sg.popup_get_file('Select ASCII files',
@@ -117,7 +122,6 @@ class Presenter:
             rrt_list = sorted(list(self.exp.rrt_set))
             popup = NamePeakPopup(rrt_list)
             rrt_to_name = popup.get_rrt_to_name()
-            print(rrt_to_name)
             if rrt_to_name:
                 self.peak_name_event(rrt_to_name)
             del popup
@@ -133,6 +137,8 @@ class Presenter:
         elif event == '-Output-':
             file_path = sg.popup_get_file('Create Excel', file_types=(("Excel File", "*.xlsx"),),
                                           default_extension='default.xlsx', save_as=True)
+            if not file_path:
+                return
             if file_path[-4:] != '.xlsx':
                 file_path = file_path + '.xlsx'
             self.save_event(file_path)

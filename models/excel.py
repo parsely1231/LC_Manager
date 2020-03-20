@@ -34,17 +34,19 @@ class ExcelModel:
     def write_table(self, table: DataTable, y, x, excluded):
         """worksheetにtable一つ分のデータを書き込む"""
 
-        self.ws.cell(y, x, table.name)  # table.nameを初期位置に書く
-        for element, dx in self.ELEMENT_POS.items():  # テーブルのカラム名を初期位置の1段下に書く
-            nx = x + dx
-            self.ws.cell(y+1, nx, element)
+        def write_header(y, x, table_name):
+            self.ws.cell(y, x, table_name)  # table.nameを初期位置に書く
+            for element, dx in self.ELEMENT_POS.items():  # テーブルのカラム名を初期位置の1段下に書く
+                nx = x + dx
+                self.ws.cell(y+1, nx, element)
 
-        fill = PatternFill(fill_type='solid', fgColor='d3d3d3')
+        write_header(y, x, table.name)
+        cell_color = PatternFill(fill_type='solid', fgColor='d3d3d3')
         for dy, imp_data in enumerate(table.data_list, 2):  # 各不純物のデータを書く
             self.write_imp_data(imp_data, y+dy, x)
             if imp_data.name in excluded:
                 for col in range(x, x+self.TABLE_SIZE-1):
-                    self.ws.cell(y+dy, col).fill = fill
+                    self.ws.cell(y+dy, col).fill = cell_color
 
         final_row = y+2+len(table.data_list)
         self.ws.cell(final_row, x + self.ELEMENT_POS['Area']-1, 'Total Area')
