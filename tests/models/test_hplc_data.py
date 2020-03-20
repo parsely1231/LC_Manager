@@ -11,6 +11,7 @@ class TestImpData:
 
     @classmethod
     def setup_class(cls):
+        print(f'Model: ImpData Class test start')
         cls.data = ImpurityData(cls.test_rt, cls.test_area, cls.test_area_ratio)
 
     @classmethod
@@ -18,10 +19,10 @@ class TestImpData:
         del cls.data
 
     def setup_method(self, method):
-        print(f'method = {method.__name__}: test start')
+        print(f'method = {method.__name__}')
 
-    def teardown_method(self, method):
-        print(f'method = {method.__name__}: test finished')
+    def teardown_method(self):
+        print('finished')
 
     def test_detail(self):
         assert self.data.detail() == [None, self.test_rt, None, self.test_area, self.test_area_ratio, None]
@@ -42,7 +43,39 @@ class TestImpData:
 
 
 class TestDataTable:
-    """TODO """
+    @classmethod
+    def setup_class(cls):
+        print(f'Model: DataTable Class test start')
+        cls.table = DataTable('test_table')
+        cls.table.add_imp_data(ImpurityData(5.0, 10000, 10.0))
+        cls.table.add_imp_data(ImpurityData(10.0, 90000, 90.0))
+
+    @classmethod
+    def teardown_class(cls):
+        del cls.table
+
+    def setup_method(self, method):
+        print(f'method = {method.__name__}')
+
+    def teardown_method(self):
+        print('finished')
+
+    def test_detail(self):
+        details = self.table.detail()
+        second = details.pop()
+        first = details.pop()
+        assert first == [None, 5.0, None, 10000, 10.0, None]
+        assert second == [None, 10.0, None, 90000, 90.0, None]
+
+    def test_set_std_rt(self):
+        self.table.set_std_rt(7.0)
+        assert self.table.std_rt == 7.0
+        self.table.set_std_rt(5.1)
+        assert self.table.std_rt == 5.0
+
+    def test_calc_rrt_in_table(self):
+        self.table.calc_rrt_in_table()
+        assert self.table.rrt_set == {Decimal(1.0), Decimal(2.0)}
 
 
 class TestExperimentalData:

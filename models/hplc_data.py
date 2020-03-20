@@ -140,25 +140,32 @@ class ExperimentalData:
     def install_ascii(self, ascii_files):
         for asc_file in ascii_files:
             self.ascii_to_table(asc_file)
+        self.calc_rrt_in_exp()
+        self.calc_edited_area_ratio_in_exp()
 
     def ascii_to_table(self, ascii_file):
         def is_sample_name_line(text_line):
             """ASCIIファイルの様式として、サンプル名の行はSampleNameで始まる"""
-            if not text_line:
-                return False
-            return text_line.split()[0] == 'SampleName'
+            splitted_line = line.split()
+            return splitted_line[0] == 'Sample' and splitted_line[1] == 'Name'
 
         def is_imp_data_line(text_line):
             """ASCIIファイルの様式として、先頭に数字がくる行は不純物データである"""
             return text_line[0].isdecimal()
 
+        def is_finish_line(text_line):
+            return text_line == '[Compound Results(PDA)]'
+
         table: Optional[DataTable] = None
 
         with open(ascii_file, 'r') as file_open:
             for line in file_open:
+                line = line.rstrip('\n')
+                if not line:
+                    continue
 
-                if is_sample_name_line(line):
-                    sample_name = line.split()[1]
+                elif is_sample_name_line(line):
+                    sample_name = line.split()[2]
                     table = DataTable(sample_name)
 
                 elif is_imp_data_line(line):
@@ -166,6 +173,9 @@ class ExperimentalData:
                     rt, area = data[1], data[4]
                     imp_data = ImpurityData(float(rt), int(area), None)
                     table.add_imp_data(imp_data)
+
+                elif is_finish_line(line):
+                    break
 
         table.set_total_area()
         for imp_data in table.data_list:
@@ -205,6 +215,6 @@ class ExperimentalData:
     # ----------ピーク名付与処理--------------
     def set_imp_name_in_exp(self, rrt_to_name: dict):
         """exp内の全てのimp_dataについて、rrtに対応するnameを設定する"""
-        self.imp_name_list = list(rrt_to_name.values())
+        self.imp_name_list = [name for name in rrt_to_name.values() if name is not None]
         for _, table in self.tables.items():
             table.set_imp_name_in_table(rrt_to_name)

@@ -12,8 +12,7 @@ class InterFace:
 
         self.input_frame = [sg.Frame('Input', font='Any 15', layout=[
 
-                    [sg.Text('Source Text File', **input_text_style)],
-                    [sg.Input(**file_path_entry_style), sg.FileBrowse('Select File', **file_browse_style)],
+                    [sg.Text('Input Text File(Original Format)  or  ASCII Files', **input_text_style)],
                     [sg.Button('Input Text', **input_button_style)],
                     [sg.Button('Input ASCII', **input_ascii_button_style)]
 
@@ -45,7 +44,7 @@ class InterFace:
                        self.output_frame]
 
     def show_window(self):
-        self.window = sg.Window(title='LC Data Manager',layout=self.layout , **window_style)
+        self.window = sg.Window(title='LC Data Manager', layout=self.layout, **window_style)
 
     def close_window(self):
         self.window.close()

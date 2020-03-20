@@ -10,6 +10,7 @@ window_style = {
 input_text_style = {
     'font': (None, 12),
     'justification': 'left',
+    'size': (40, 1),
 }
 
 file_path_entry_style = {
@@ -25,7 +26,7 @@ file_browse_style = {
 
 input_button_style = {
     'size': (15, 1),
-    'key': '-InputData-',
+    'key': '-InputText-',
 }
 
 input_ascii_button_style = {
