@@ -1,6 +1,5 @@
 from models.hplc_data import ExperimentalData, DataTable, ImpurityData
 
-
 import openpyxl as excel
 from openpyxl.styles import PatternFill
 
@@ -34,25 +33,31 @@ class ExcelModel:
     def write_table(self, table: DataTable, y, x, excluded):
         """worksheetにtable一つ分のデータを書き込む"""
 
-        def write_header(y, x, table_name):
-            self.ws.cell(y, x, table_name)  # table.nameを初期位置に書く
+        def write_header():
+            self.ws.cell(y, x, table.name)  # table.nameを初期位置に書く
             for element, dx in self.ELEMENT_POS.items():  # テーブルのカラム名を初期位置の1段下に書く
                 nx = x + dx
                 self.ws.cell(y+1, nx, element)
 
-        write_header(y, x, table.name)
+        def write_footer():
+            final_row = y + 2 + len(table.data_list)
+            self.ws.cell(final_row, x + self.ELEMENT_POS['Area'] - 1, 'Total Area')
+            self.ws.cell(final_row + 1, x + self.ELEMENT_POS['Area'] - 1, 'Excluded')
+            self.ws.cell(final_row, x + self.ELEMENT_POS['Area'], table.total_area)
+            self.ws.cell(final_row + 1, x + self.ELEMENT_POS['Area'], table.edited_total_area)
+
+        def paint_cells(py, px, color):
+            for col in range(px, px + self.TABLE_SIZE - 1):
+                self.ws.cell(py, col).fill = color
+
+        write_header()
         cell_color = PatternFill(fill_type='solid', fgColor='d3d3d3')
         for dy, imp_data in enumerate(table.data_list, 2):  # 各不純物のデータを書く
             self.write_imp_data(imp_data, y+dy, x)
             if imp_data.name in excluded:
-                for col in range(x, x+self.TABLE_SIZE-1):
-                    self.ws.cell(y+dy, col).fill = cell_color
+                paint_cells(y+dy, x, cell_color)
 
-        final_row = y+2+len(table.data_list)
-        self.ws.cell(final_row, x + self.ELEMENT_POS['Area']-1, 'Total Area')
-        self.ws.cell(final_row + 1, x + self.ELEMENT_POS['Area']-1, 'Excluded')
-        self.ws.cell(final_row, x+self.ELEMENT_POS['Area'], table.total_area)
-        self.ws.cell(final_row+1, x+self.ELEMENT_POS['Area'], table.edited_total_area)
+        write_footer()
 
     def write_imp_data(self, data: ImpurityData, y, x):
         self.ws.cell(y, x+self.ELEMENT_POS['name'], data.name)

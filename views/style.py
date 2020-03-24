@@ -13,17 +13,6 @@ input_text_style = {
     'size': (40, 1),
 }
 
-file_path_entry_style = {
-    'font': (None, 10),
-    'size': (40, 1),
-    'key': '-SourceFile-',
-}
-
-file_browse_style = {
-    'button_color': ('white', 'blue'),
-    'file_types': (("Text File", "*.txt"),),
-}
-
 input_button_style = {
     'size': (15, 1),
     'key': '-InputText-',
@@ -33,7 +22,6 @@ input_ascii_button_style = {
     'size': (15, 1),
     'key': '-InputASCII-',
 }
-
 
 # -----------Preview Frame-----------
 list_box_style = {

@@ -1,7 +1,6 @@
 import PySimpleGUI as sg
 import typing
 
-
 from views.style import *
 
 

@@ -8,6 +8,7 @@ class NamePeakPopup:
 
         self.layout = [[sg.Column(cols, scrollable=True, vertical_scroll_only=True, size=(200, 400))],
                        [sg.OK(), sg.Cancel()]]
+
         self.window = sg.Window(title='Name Peaks', layout=self.layout)
         self.rrt_list = rrt_list
         self.rrt_to_name = {}
