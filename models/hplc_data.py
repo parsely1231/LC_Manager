@@ -146,7 +146,7 @@ class ExperimentalData:
     def ascii_to_table(self, ascii_file):
         def is_sample_name_line(text_line):
             """ASCIIファイルの様式として、サンプル名の行はSampleNameで始まる"""
-            splitted_line = line.split()
+            splitted_line = text_line.split()
             return splitted_line[0] == 'Sample' and splitted_line[1] == 'Name'
 
         def is_imp_data_line(text_line):

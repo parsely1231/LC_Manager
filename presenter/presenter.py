@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+import re
 
 from models.hplc_data import ExperimentalData
 from models.excel import ExcelModel
@@ -43,7 +44,7 @@ class Presenter:
     def input_text_event(self, file_path):
         if not file_path:
             return
-        if file_path[-4:] == '.txt':
+        if re.search('.txt$', file_path):
             self.install_text(file_path)
             self.window['-SampleList-'].update(values=self.exp.sample_name_list)
             sg.popup('Input has completed')
@@ -56,7 +57,7 @@ class Presenter:
             return
         ascii_files = ascii_files.split(';')
         for file_path in ascii_files:
-            if file_path[-4:] != '.txt':
+            if not re.search('.txt$', file_path):
                 sg.popup('#### Error ####\nSelect **TEXT** files')
                 return
         self.install_ascii(ascii_files)
@@ -86,16 +87,24 @@ class Presenter:
         self.update_table()
 
     def excluded_event(self, excluded):
+        if not excluded:
+            return
         self.set_excluded(excluded)
         sg.popup('Excluding has completed')
         self.update_table()
 
     def peak_name_event(self, rrt_to_name):
+        if not rrt_to_name:
+            return
         self.set_peak_name(rrt_to_name)
         sg.popup('Name Peaks has completed')
         self.update_table()
 
     def save_event(self, file_path):
+        if not file_path:
+            return
+        if not re.search('.xlsx$', file_path):
+            file_path = file_path + '.xlsx'
         self.create_excel(file_path)
         sg.popup('Export has completed')
 
@@ -111,7 +120,7 @@ class Presenter:
             self.input_ascii_event(ascii_files)
 
         elif event == '-SampleList-':
-            sample_names = self.window['-SampleList-'].get()
+            sample_names = value['-SampleList-']
             self.sample_name_check_event(sample_names)
 
         elif event == '-CalcRRT-':
@@ -122,23 +131,17 @@ class Presenter:
             rrt_list = sorted(list(self.exp.rrt_set))
             popup = NamePeakPopup(rrt_list)
             rrt_to_name = popup.get_rrt_to_name()
-            if rrt_to_name:
-                self.peak_name_event(rrt_to_name)
+            self.peak_name_event(rrt_to_name)
             del popup
 
         elif event == '-Exclude-':
             name_list = self.exp.imp_name_list
             popup = ExcludePopup(name_list)
             excluded = popup.get_excluded()
-            if excluded:
-                self.excluded_event(excluded)
+            self.excluded_event(excluded)
             del popup
 
         elif event == '-Output-':
             file_path = sg.popup_get_file('Create Excel', file_types=(("Excel File", "*.xlsx"),),
                                           default_extension='default.xlsx', save_as=True)
-            if not file_path:
-                return
-            if file_path[-4:] != '.xlsx':
-                file_path = file_path + '.xlsx'
             self.save_event(file_path)
