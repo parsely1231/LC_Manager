@@ -32,27 +32,27 @@ class ImpurityData:
 
 class DataTable:
     """HPLC分析一回分のデータ(ImpurityDataのリスト)"""
-    data_list: List[ImpurityData]
+    imp_list: List[ImpurityData]
 
     def __init__(self, name):
         self.name = name
-        self.data_list = []
+        self.imp_list = []
         self.std_rt = None
         self.rrt_set = set()
         self.total_area = None
         self.edited_total_area = None
 
     def detail(self):
-        return [data.detail() for data in self.data_list]
+        return [imp.detail() for imp in self.imp_list]
 
     def add_imp_data(self, imp: ImpurityData):
-        self.data_list.append(imp)
+        self.imp_list.append(imp)
 
     def set_std_rt(self, base_rt):
         """tableのstd_rtを設定する.
         std_rtはtable内の各imp_dataからbase_rt±0.2以内のrtを探して設定する.
         条件にあうrtがない場合はbase_rtをそのまま設定"""
-        candidates = [data.rt for data in self.data_list if base_rt-0.2 <= data.rt <= base_rt+0.2]
+        candidates = [imp.rt for imp in self.imp_list if base_rt - 0.2 <= imp.rt <= base_rt + 0.2]
         if candidates:
             self.std_rt = min(candidates)
         else:
@@ -61,29 +61,29 @@ class DataTable:
     def calc_rrt_in_table(self):
         """table内の各dataについて、table.std_rtをもとにrrtを計算する"""
         self.rrt_set = set()
-        for data in self.data_list:
-            data.set_imp_rrt(self.std_rt)
-            while data.rrt in self.rrt_set:
-                data.rrt += Decimal('0.001')
-            self.rrt_set.add(data.rrt)
+        for imp in self.imp_list:
+            imp.set_imp_rrt(self.std_rt)
+            while imp.rrt in self.rrt_set:
+                imp.rrt += Decimal('0.001')
+            self.rrt_set.add(imp.rrt)
 
     def set_total_area(self):
-        total_area = sum([data.area for data in self.data_list])
+        total_area = sum([imp.area for imp in self.imp_list])
         self.total_area = total_area
 
     def set_edited_total_area(self, excluded):
-        edited_total_area = sum([data.area for data in self.data_list if data.name not in excluded])
+        edited_total_area = sum([imp.area for imp in self.imp_list if imp.name not in excluded])
         self.edited_total_area = edited_total_area
 
     def calc_edited_area_ratio_in_table(self, excluded):
-        for imp in self.data_list:
+        for imp in self.imp_list:
             if imp.name in excluded:
                 imp.edited_area_ratio = None
             else:
                 imp.set_edited_area_ratio(self.edited_total_area)
 
     def set_imp_name_in_table(self, rrt_to_name: dict):
-        for imp in self.data_list:
+        for imp in self.imp_list:
             imp.set_imp_name(rrt_to_name)
 
 
@@ -178,7 +178,7 @@ class ExperimentalData:
                     break
 
         table.set_total_area()
-        for imp_data in table.data_list:
+        for imp_data in table.imp_list:
             imp_data.area_ratio = imp_data.area / table.total_area
 
         self.add_table(table)

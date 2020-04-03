@@ -14,14 +14,16 @@ class ExcelModel:
         'Area%': 4,
         '補正Area%': 5,
     }
+    INIT_ROW = 2
+    INIT_COL = 2
 
     def __init__(self):
         self.wb = excel.Workbook()
         self.ws = self.wb.active
 
     def to_xlsx(self, exp: ExperimentalData, file_path):
-        x = 2
-        y = 2
+        x = self.INIT_COL
+        y = self.INIT_ROW
         for _, table in exp.tables.items():
             self.write_table(table, y, x, exp.imp_excluded)
             x += self.TABLE_SIZE
@@ -40,7 +42,7 @@ class ExcelModel:
                 self.ws.cell(y+1, nx, element)
 
         def write_footer():
-            final_row = y + 2 + len(table.data_list)
+            final_row = y + 2 + len(table.imp_list)
             self.ws.cell(final_row, x + self.ELEMENT_POS['Area'] - 1, 'Total Area')
             self.ws.cell(final_row + 1, x + self.ELEMENT_POS['Area'] - 1, 'Excluded')
             self.ws.cell(final_row, x + self.ELEMENT_POS['Area'], table.total_area)
@@ -51,8 +53,10 @@ class ExcelModel:
                 self.ws.cell(py, col).fill = color
 
         write_header()
-        cell_color = PatternFill(fill_type='solid', fgColor='d3d3d3')
-        for dy, imp_data in enumerate(table.data_list, 2):  # 各不純物のデータを書く
+        gray = 'd3d3d3'
+        cell_color = PatternFill(fill_type='solid', fgColor=gray)
+
+        for dy, imp_data in enumerate(table.imp_list, 2):  # 各不純物のデータを書く
             self.write_imp_data(imp_data, y+dy, x)
             if imp_data.name in excluded:
                 paint_cells(y+dy, x, cell_color)
@@ -79,6 +83,6 @@ class ExcelModel:
 
         for col, (name, table) in enumerate(exp.tables.items(), init_x+1):
             self.ws.cell(init_y, col, name)
-            for imp in table.data_list:
+            for imp in table.imp_list:
                 row = rrt_to_row[imp.rrt]
                 self.ws.cell(row, col, imp.edited_area_ratio)
