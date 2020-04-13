@@ -63,6 +63,7 @@ peak_name_btn_style = {
 
 exclude_btn_style = {
     'size': (15, 1),
+    'disabled': True,
     'key': '-Exclude-',
 }
 
@@ -70,5 +71,6 @@ exclude_btn_style = {
 export_btn_style = {
     'button_color': ('white', 'blue'),
     'size': (20, 1),
+    'disabled': True,
     'key': '-Output-',
 }
