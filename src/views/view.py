@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import typing
 
-from views.style import *
+from src.views.style import *
 
 
 class InterFace:

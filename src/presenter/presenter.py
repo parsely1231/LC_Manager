@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 
-from models.hplc_data import ExperimentalData
-from models.excel import ExcelModel
-from views.popup import NamePeakPopup, ExcludePopup
-from presenter.validator import Validator
+from src.models.hplc_data import ExperimentalData
+from src.models.excel import ExcelModel
+from src.views.popup import NamePeakPopup, ExcludePopup
+from src.presenter.validator import Validator
 
 
 class Presenter:
