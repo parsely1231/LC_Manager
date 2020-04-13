@@ -1,7 +1,7 @@
 def main():
-    from presenter.presenter import Presenter
-    from presenter.handler import Handler
-    from views.view import InterFace
+    from src.presenter.presenter import Presenter
+    from src.presenter.handler import Handler
+    from src.views.view import InterFace
 
     interface = InterFace()
     interface.show_window()

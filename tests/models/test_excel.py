@@ -1,13 +1,13 @@
 from decimal import Decimal
 
-from models.excel import ExcelModel
-from models.hplc_data import ExperimentalData
+from src.models.excel import ExcelModel
+from src.models.hplc_data import ExperimentalData
 
 
 class TestExcelModel:
     def test_to_xlsx(self):
         exp = ExperimentalData()
-        test_file = '../../sample_file/sample.txt'
+        test_file = 'sample_file/sample.txt'
         exp.install_text(test_file)
         rro_to_name = {Decimal('1.22'): 'blank', Decimal('2.22'): 'solvent'}
         exp.set_imp_name_in_exp(rro_to_name)

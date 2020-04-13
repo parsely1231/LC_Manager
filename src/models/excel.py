@@ -1,4 +1,4 @@
-from models.hplc_data import ExperimentalData, DataTable, ImpurityData
+from src.models.hplc_data import ExperimentalData, DataTable, ImpurityData
 
 import openpyxl as excel
 from openpyxl.styles import PatternFill

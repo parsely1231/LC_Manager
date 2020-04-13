@@ -1,4 +1,4 @@
-from models.hplc_data import ImpurityData, DataTable, ExperimentalData
+from src.models.hplc_data import ImpurityData, DataTable, ExperimentalData
 
 
 from decimal import Decimal
@@ -79,6 +79,8 @@ class TestDataTable:
 
 
 class TestExperimentalData:
+    TEST_TEXT = 'sample_file/sample.txt'
+    TEST_ASCII = 'sample_file/ASCIIsample2.txt'
     @classmethod
     def setup_class(cls):
         print(f'Model: ExperimentalData Class test Start')
@@ -94,7 +96,7 @@ class TestExperimentalData:
         del self.exp
 
     def test_install_text(self):
-        test_file = '../../sample_file/sample.txt'
+        test_file = self.TEST_TEXT
         test_data = [[None, 1.222, Decimal('1.22'), 10000, 10.0, Decimal('10.00')],
                      [None, 2.222, Decimal('2.22'), 10000, 10.0, Decimal('10.00')],
                      [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('80.00')]]
@@ -103,7 +105,7 @@ class TestExperimentalData:
         assert self.exp.tables['#sample1'].detail() == test_data
 
     def test_ascii_to_table(self):
-        test_file = '../../sample_file/ASCIIsample2.txt'
+        test_file = self.TEST_ASCII
         test_data = [[None, 1.84, None, 1384, 0.0003338428618052167, None],
                      [None, 2.101, None, 1295, 0.00031237464309086385, None],
                      [None, 2.213, None, 1621, 0.00039101103972995395, None],
@@ -121,7 +123,8 @@ class TestExperimentalData:
                      ['solvent', 2.222, Decimal('2.22'), 10000, 10.0, Decimal('10.00')],
                      [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('80.00')]]
         rro_to_name = {Decimal('1.22'): 'blank', Decimal('2.22'): 'solvent'}
-        test_file = '../../sample_file/sample.txt'
+        test_file = self.TEST_TEXT
+
         self.exp.install_text(test_file)
         self.exp.set_imp_name_in_exp(rro_to_name)
         assert self.exp.tables['#sample1'].detail() == test_data
@@ -131,10 +134,10 @@ class TestExperimentalData:
                      ['solvent', 2.222, Decimal('2.22'), 10000, 10.0, None],
                      [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('100.00')]]
         rro_to_name = {Decimal('1.22'): 'blank', Decimal('2.22'): 'solvent'}
-        test_file = '../../sample_file/sample.txt'
+        test_file = self.TEST_TEXT
+
         self.exp.install_text(test_file)
         self.exp.set_imp_name_in_exp(rro_to_name)
         self.exp.set_excluded({'blank', 'solvent'})
         self.exp.calc_edited_area_ratio_in_exp()
         assert self.exp.tables['#sample1'].detail() == test_data
-

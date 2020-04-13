@@ -1,4 +1,4 @@
-from presenter.validator import Validator
+from src.presenter.validator import Validator
 
 
 class TestValidator:
