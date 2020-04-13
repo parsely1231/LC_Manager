@@ -79,4 +79,62 @@ class TestDataTable:
 
 
 class TestExperimentalData:
-    """TODO"""
+    @classmethod
+    def setup_class(cls):
+        print(f'Model: ExperimentalData Class test Start')
+
+    @classmethod
+    def teardown_class(cls):
+        print(f'Model: ExperimentalData Class test Finish')
+
+    def setup_method(self, method):
+        self.exp = ExperimentalData()
+
+    def teardown_method(self):
+        del self.exp
+
+    def test_install_text(self):
+        test_file = '../../sample_file/sample.txt'
+        test_data = [[None, 1.222, Decimal('1.22'), 10000, 10.0, Decimal('10.00')],
+                     [None, 2.222, Decimal('2.22'), 10000, 10.0, Decimal('10.00')],
+                     [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('80.00')]]
+        self.exp.install_text(test_file)
+        assert self.exp.sample_name_list == ['#sample1', '#sample2', '#sample3']
+        assert self.exp.tables['#sample1'].detail() == test_data
+
+    def test_ascii_to_table(self):
+        test_file = '../../sample_file/ASCIIsample2.txt'
+        test_data = [[None, 1.84, None, 1384, 0.0003338428618052167, None],
+                     [None, 2.101, None, 1295, 0.00031237464309086385, None],
+                     [None, 2.213, None, 1621, 0.00039101103972995395, None],
+                     [None, 3.526, None, 13512, 0.0032593097895318554, None],
+                     [None, 5.005, None, 120641, 0.029100532291216147, None],
+                     [None, 19.033, None, 3823843, 0.9223718859926627, None],
+                     [None, 24.767, None, 10237, 0.002469327584031794, None],
+                     [None, 29.027, None, 173130, 0.041761715797931476, None]]
+        test_name = 'ZZZZZZZ'
+        self.exp.ascii_to_table(test_file)
+        assert self.exp.tables['ZZZZZZZ'].detail() == test_data
+
+    def test_set_imp_name_in_exp(self):
+        test_data = [['blank', 1.222, Decimal('1.22'), 10000, 10.0, Decimal('10.00')],
+                     ['solvent', 2.222, Decimal('2.22'), 10000, 10.0, Decimal('10.00')],
+                     [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('80.00')]]
+        rro_to_name = {Decimal('1.22'): 'blank', Decimal('2.22'): 'solvent'}
+        test_file = '../../sample_file/sample.txt'
+        self.exp.install_text(test_file)
+        self.exp.set_imp_name_in_exp(rro_to_name)
+        assert self.exp.tables['#sample1'].detail() == test_data
+
+    def test_calc_edited_area_ratio_in_exp(self):
+        test_data = [['blank', 1.222, Decimal('1.22'), 10000, 10.0, None],
+                     ['solvent', 2.222, Decimal('2.22'), 10000, 10.0, None],
+                     [None, 9.123, Decimal('9.12'), 80000, 80.0, Decimal('100.00')]]
+        rro_to_name = {Decimal('1.22'): 'blank', Decimal('2.22'): 'solvent'}
+        test_file = '../../sample_file/sample.txt'
+        self.exp.install_text(test_file)
+        self.exp.set_imp_name_in_exp(rro_to_name)
+        self.exp.set_excluded({'blank', 'solvent'})
+        self.exp.calc_edited_area_ratio_in_exp()
+        assert self.exp.tables['#sample1'].detail() == test_data
+

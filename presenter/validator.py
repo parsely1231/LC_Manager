@@ -4,7 +4,7 @@ import re
 class Validator:
     @classmethod
     def text_file_validate(cls, file_path):
-        if re.search('.txt$', file_path):
+        if re.search(r'\.txt$', file_path):
             return True
         else:
             return False
@@ -21,16 +21,16 @@ class Validator:
     @classmethod
     def xlsx_file_validate(cls, file_path):
         if '.' in file_path:
-            if not re.search('.xlsx$', file_path):  # 別の拡張子のとき
-                return False
+            if re.search(r'\.xlsx$', file_path):
+                return True
+            else:
+                return False  # 別の拡張子がついているのでFalse
+
         else:  # 拡張子がないとき
             return 'add xlsx'
 
     @classmethod
     def base_rt_validate(cls, base_rt):
-        if base_rt is None:
-            return False
-
         try:
             float(base_rt)
         except ValueError:
