@@ -38,7 +38,7 @@ LC Manager requires the following to run:
 
 * [Python][python] 3.7
 * [openpyxl][openpyxl] 3.0.3
-* [SimplePyGUI][simplepygui] 4.16.0
+* [PySimpleGUI][pysimplegui] 4.16.0
 
 
 Usage
@@ -142,4 +142,4 @@ Copyright &copy; 2020, parsely
 [shield-build]: https://img.shields.io/badge/build-passing-brightgreen.svg
 [python]: https://www.python.org/
 [openpyxl]: https://openpyxl.readthedocs.io/en/stable/index.html
-[simplepygui]: https://pysimplegui.readthedocs.io/en/latest/
+[pysimplegui]: https://pysimplegui.readthedocs.io/en/latest/

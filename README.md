@@ -38,7 +38,7 @@ HPLCのデータを編集・管理するためのGUIアプリケーションで�
 
 * [Python][python] 3.7
 * [openpyxl][openpyxl] 3.0.3
-* [SimplePyGUI][simplepygui] 4.16.0
+* [PySimpleGUI][pysimplegui] 4.16.0
 
 
 使用方法
@@ -133,4 +133,4 @@ Copyright &copy; 2020, parsely
 [shield-pysimplegui]: https://img.shields.io/badge/pysimplegui-v4.16.0-blue.svg
 [python]: https://www.python.org/
 [openpyxl]: https://openpyxl.readthedocs.io/en/stable/index.html
-[simplepygui]: https://pysimplegui.readthedocs.io/en/latest/
+[pysimplegui]: https://pysimplegui.readthedocs.io/en/latest/
