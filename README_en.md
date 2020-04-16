@@ -45,7 +45,7 @@ Usage
 -----
 When you start the application, the following screen will be displayed
 
-<img width="615" alt="スクリーンショット 2020-04-14 22 05 20" src="https://user-images.githubusercontent.com/52167040/79228809-065dd780-7e9d-11ea-9db7-548e13804afa.png">
+<img width="608" alt="スクリーンショット 2020-04-14 22 05 20" src="https://user-images.githubusercontent.com/52167040/79454252-d5f57500-8025-11ea-9309-b7b6fb1b8e5e.png">
 
 
 ### Input HPLC data
@@ -111,7 +111,7 @@ If not, RRT is calculated by base RT.
 ### name peaks
 Perhaps you know what the peak with the certain RRT. You can name peaks by pressing "Set Peak Names" button.  
 In the popup window that appears, fill out names for each RRT (You do not need to fill in all).  
-<img width="624" alt="スクリーンショット 2020-04-14 22 09 35" src="https://user-images.githubusercontent.com/52167040/79230604-d2d07c80-7e9f-11ea-9df5-cfc5f1252443.png">
+<img width="612" alt="スクリーンショット 2020-04-14 22 09 35" src="https://user-images.githubusercontent.com/52167040/79454350-063d1380-8026-11ea-82a5-0a23b21b1de0.png">
 
 
 ### exclude unnecessary peaks

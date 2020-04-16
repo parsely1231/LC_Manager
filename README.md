@@ -45,7 +45,7 @@ HPLCのデータを編集・管理するためのGUIアプリケーションで�
 ----
 アプリを起動すると以下のような画面が表示されます。
 
-<img width="615" alt="スクリーンショット 2020-04-14 22 05 20" src="https://user-images.githubusercontent.com/52167040/79228809-065dd780-7e9d-11ea-9db7-548e13804afa.png">
+<img width="608" alt="スクリーンショット 2020-04-14 22 05 20" src="https://user-images.githubusercontent.com/52167040/79453599-dccfb800-8024-11ea-8430-1e749f3e4af6.png">
 
 
 ### HPLCデータのInput
@@ -103,13 +103,13 @@ RT  Area    Ratio
 ### RRTの計算
 RRTを計算する場合、"Calc RRT"ボタンを押して、ポップアップにBase RTを入力してください。  
 Note: サンプル内にBase RTの±0.2いないのRTがある場合、そのRTを基準としてRRTを計算します。該当するRTがない場合は、Base RTをつかってRRTを計算します。  
-<img width="612" alt="スクリーンショット 2020-04-14 22 08 58" src="https://user-images.githubusercontent.com/52167040/79230335-62c1f680-7e9f-11ea-9ca6-48bf2880db0b.png">
+<img width="610" alt="スクリーンショット 2020-04-14 22 08 58" src="https://user-images.githubusercontent.com/52167040/79454098-9e86c880-8025-11ea-8dd9-67fc17cd36d5.png">
 <img width="615" alt="スクリーンショット 2020-04-14 22 31 27" src="https://user-images.githubusercontent.com/52167040/79230539-b6344480-7e9f-11ea-83fa-868fc30dba89.png">
 
 ### ピークに名前をつける
 特定のRRTに名前をつける場合、"Set Peak Names" ボタンを押してください.  
 表示されたポップアップにRRT毎に設定した名前を入力してください (全てを埋める必要はありません。名前がない場合は空白で大丈夫です).  
-<img width="624" alt="スクリーンショット 2020-04-14 22 09 35" src="https://user-images.githubusercontent.com/52167040/79230604-d2d07c80-7e9f-11ea-9df5-cfc5f1252443.png">
+<img width="612" alt="スクリーンショット 2020-04-14 22 09 35" src="https://user-images.githubusercontent.com/52167040/79453805-25877100-8025-11ea-9498-b8f5869bc005.png">
 
 
 ### 計算から除外するピークを設定する
