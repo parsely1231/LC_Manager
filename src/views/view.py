@@ -42,8 +42,7 @@ class InterFace:
                        self.edit_frame,
                        self.output_frame]
 
-    def show_window(self):
         self.window = sg.Window(title='LC Data Manager', layout=self.layout, **window_style)
 
-    def close_window(self):
+    def close(self):
         self.window.close()
