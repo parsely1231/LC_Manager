@@ -4,7 +4,6 @@ def main():
     from src.views.view import InterFace
 
     interface = InterFace()
-    interface.show_window()
     presenter = Presenter(window=interface.window)
     handler = Handler(presenter)
 
@@ -15,7 +14,7 @@ def main():
         if event is None:
             break
 
-    interface.close_window()
+    interface.close()
 
 
 if __name__ == '__main__':
