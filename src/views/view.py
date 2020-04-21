@@ -1,14 +1,10 @@
 import PySimpleGUI as sg
-import typing
 
 from src.views.style import *
 
 
 class InterFace:
-
     def __init__(self):
-        self.window: typing.Optional[sg.Window] = None
-
         self.input_frame = [sg.Frame('Input', font='Any 15', layout=[
 
                     [sg.Text('Input Text File(Original Format)  or  ASCII Files', **input_text_style)],
