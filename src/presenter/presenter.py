@@ -70,7 +70,7 @@ class Presenter:
         return file_path
 
     def receive_ascii_file_paths(self):
-        ascii_files = sg.popup_get_file('Select ASCII files', file_types=(("Text File", "*.txt"),), multiple_files=True)
+        ascii_files: str = sg.popup_get_file('Select ASCII files', file_types=(("Text File", "*.txt"),), multiple_files=True)
 
         if not ascii_files:
             return False
@@ -78,7 +78,7 @@ class Presenter:
             self.show_error('#### Error ####\nSelect **TEXT** files')
             return False
 
-        return ascii_files
+        return ascii_files.split(";")
 
     def receive_base_rt(self):
         base_rt = sg.popup_get_text('Input Base RT')
